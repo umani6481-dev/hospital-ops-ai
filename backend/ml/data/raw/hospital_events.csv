@@ -1,0 +1,24 @@
+event_date,title,department,severity
+2025-08-06,System Outage,Pediatrics,low
+2025-08-09,Staff Shortage,Cardiology,high
+2025-08-12,Staff Shortage,Orthopedics,high
+2025-09-19,Staff Shortage,Cardiology,high
+2025-09-30,Staff Shortage,Emergency,high
+2025-10-09,Emergency Surge,Cardiology,critical
+2025-10-11,Staff Shortage,Pediatrics,high
+2025-12-03,Weather Event,Emergency,high
+2025-12-14,Public Holiday,OPD - General Medicine,medium
+2025-12-15,System Outage,Cardiology,low
+2025-12-29,Equipment Unavailable,Pediatrics,medium
+2026-01-25,Public Holiday,Orthopedics,medium
+2026-01-31,Emergency Surge,OPD - General Medicine,critical
+2026-02-02,Staff Shortage,OPD - General Medicine,high
+2026-02-17,Emergency Surge,Pediatrics,critical
+2026-02-27,Staff Shortage,Orthopedics,high
+2026-03-13,Equipment Unavailable,Radiology,medium
+2026-04-05,Equipment Unavailable,OPD - General Medicine,medium
+2026-04-13,Weather Event,Radiology,high
+2026-05-01,Public Holiday,Emergency,medium
+2026-05-29,Equipment Unavailable,Radiology,medium
+2026-06-17,Emergency Surge,Orthopedics,critical
+2026-07-31,Emergency Surge,Emergency,critical

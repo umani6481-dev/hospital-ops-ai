@@ -1,0 +1,52 @@
+{
+  "model_name": "demand_forecast",
+  "algorithm": "XGBoost",
+  "version": "v1786724641",
+  "trained_at": "2026-08-14T21:24:01.933476",
+  "metrics": {
+    "MAE": 4.66,
+    "RMSE": 7.12,
+    "MAPE": 10.57,
+    "R2": 0.937
+  },
+  "all_candidates": {
+    "LinearRegression": {
+      "MAE": 5.16,
+      "RMSE": 7.19,
+      "MAPE": 12.28,
+      "R2": 0.936
+    },
+    "RandomForest": {
+      "MAE": 4.68,
+      "RMSE": 6.85,
+      "MAPE": 10.91,
+      "R2": 0.942
+    },
+    "XGBoost": {
+      "MAE": 4.66,
+      "RMSE": 7.12,
+      "MAPE": 10.57,
+      "R2": 0.937
+    }
+  },
+  "feature_list": [
+    "day_of_week",
+    "month",
+    "is_monday",
+    "is_weekend",
+    "prev_day_demand",
+    "prev_week_demand",
+    "ma_7",
+    "ma_14",
+    "capacity",
+    "doctors_available",
+    "had_event_flag",
+    "dept_Cardiology",
+    "dept_Emergency",
+    "dept_OPD - General Medicine",
+    "dept_Orthopedics",
+    "dept_Pediatrics",
+    "dept_Radiology"
+  ],
+  "dataset_version": "synthetic_v1"
+}

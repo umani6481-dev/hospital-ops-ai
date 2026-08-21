@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Hospital Operations AI</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0B2230;        /* deep teal-navy */
+    --teal:#0E7C86;       /* primary teal */
+    --teal-light:#E5F5F4;
+    --blue:#1B4F72;       /* secondary blue */
+    --paper:#F6F9F9;
+    --line:#DCE7E6;
+    --amber:#C77B26;
+    --red:#C0392B;
+    --green:#1E8A5F;
+  }
+  *{font-family:'Inter',sans-serif;}
+  .font-display{font-family:'Space Grotesk',sans-serif;}
+  body{background:var(--paper); color:var(--ink);}
+  .sidebar-link.active{background:var(--teal); color:#fff;}
+  .sidebar-link.active svg{stroke:#fff;}
+  .card{background:#fff; border:1px solid var(--line); border-radius:14px;}
+  .risk-normal{color:var(--green); background:#E9F7F0;}
+  .risk-moderate{color:var(--amber); background:#FBF0E2;}
+  .risk-high{color:#D2691E; background:#FCEADB;}
+  .risk-critical{color:var(--red); background:#FAE4E1;}
+  ::-webkit-scrollbar{width:8px; height:8px;}
+  ::-webkit-scrollbar-thumb{background:#C7D6D5; border-radius:8px;}
+  .fade-in{animation:fade .25s ease-in;}
+  @keyframes fade{from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:translateY(0);}}
+  .toast{animation:slideIn .25s ease-out;}
+  @keyframes slideIn{from{opacity:0; transform:translateX(20px);} to{opacity:1; transform:translateX(0);}}
+</style>
+</head>
+<body class="min-h-screen">
+
+<div id="app"></div>
+
+<script src="assets/api.js"></script>
+<script src="assets/app.js"></script>
+<!-- ===== Hospital Ops AI Chatbot Widget ===== -->
+<div id="hoa-chatbot-root">
+  <button id="hoa-chatbot-toggle" aria-label="Open chatbot">💬</button>
+  <div id="hoa-chatbot-panel">
+    <div id="hoa-chatbot-header">
+      <span>Hospital Ops Assistant</span>
+      <button id="hoa-chatbot-close">✕</button>
+    </div>
+    <div id="hoa-chatbot-messages"></div>
+    <div id="hoa-chatbot-input-row">
+      <input id="hoa-chatbot-input" type="text" placeholder="Ask about beds, alerts, predictions..." />
+      <button id="hoa-chatbot-send">Send</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  #hoa-chatbot-root { position: fixed; bottom: 24px; right: 24px; z-index: 9999; font-family: inherit; }
+  #hoa-chatbot-toggle {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: linear-gradient(135deg, #0d9488, #0f766e);
+    color: white; border: none; font-size: 24px; cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+  }
+  #hoa-chatbot-panel {
+    display: none;
+    position: absolute; bottom: 70px; right: 0;
+    width: 340px; max-height: 460px;
+    background: #ffffff; border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    flex-direction: column; overflow: hidden;
+    border: 1px solid #e2e8f0;
+  }
+  #hoa-chatbot-header {
+    background: #0f172a; color: #ffffff;
+    padding: 12px 16px; font-weight: 600;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  #hoa-chatbot-close { background: none; border: none; color: white; cursor: pointer; font-size: 16px; }
+  #hoa-chatbot-messages {
+    flex: 1; padding: 12px; overflow-y: auto;
+    display: flex; flex-direction: column; gap: 8px;
+    background: #f8fafc; min-height: 260px; max-height: 320px;
+  }
+  .hoa-msg { max-width: 85%; padding: 8px 12px; border-radius: 10px; font-size: 13px; line-height: 1.4; }
+  .hoa-msg-bot { background: #e6fffa; color: #134e4a; align-self: flex-start; border-bottom-left-radius: 2px; }
+  .hoa-msg-user { background: #0d9488; color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
+  #hoa-chatbot-input-row { display: flex; border-top: 1px solid #e2e8f0; }
+  #hoa-chatbot-input { flex: 1; border: none; padding: 10px 12px; font-size: 13px; outline: none; }
+  #hoa-chatbot-send { background: #0d9488; color: white; border: none; padding: 0 16px; cursor: pointer; font-size: 13px; }
+  #hoa-chatbot-send:hover { background: #0f766e; }
+</style>
+
+<script>
+(function () {
+  const API_BASE = "http://127.0.0.1:8000/api/chatbot/ask";
+  const toggle = document.getElementById("hoa-chatbot-toggle");
+  const panel = document.getElementById("hoa-chatbot-panel");
+  const closeBtn = document.getElementById("hoa-chatbot-close");
+  const messages = document.getElementById("hoa-chatbot-messages");
+  const input = document.getElementById("hoa-chatbot-input");
+  const sendBtn = document.getElementById("hoa-chatbot-send");
+
+  function addMessage(text, sender) {
+    const div = document.createElement("div");
+    div.className = "hoa-msg " + (sender === "user" ? "hoa-msg-user" : "hoa-msg-bot");
+    div.textContent = text;
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  toggle.addEventListener("click", function () {
+    const isHidden = panel.style.display !== "flex";
+    panel.style.display = isHidden ? "flex" : "none";
+    if (isHidden && messages.children.length === 0) {
+      addMessage("Hi! Ask me anything about this dashboard's features — beds, alerts, predictions, roles, and more.", "bot");
+    }
+  });
+
+  closeBtn.addEventListener("click", function () {
+    panel.style.display = "none";
+  });
+
+  async function sendMessage() {
+    const text = input.value.trim();
+    if (!text) return;
+    addMessage(text, "user");
+    input.value = "";
+    addMessage("...", "bot");
+    const typingIndicator = messages.lastChild;
+    try {
+      const res = await fetch(API_BASE, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: text }),
+      });
+      const data = await res.json();
+      typingIndicator.textContent = data.reply || "Sorry, something went wrong.";
+    } catch (err) {
+      typingIndicator.textContent = "Could not reach the server. Is the backend running?";
+    }
+  }
+
+  sendBtn.addEventListener("click", sendMessage);
+  input.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") sendMessage();
+  });
+})();
+</script>
+<!-- ===== End Chatbot Widget ===== -->
+</body>
+</html>

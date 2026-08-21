@@ -1,0 +1,48 @@
+{
+  "model_name": "waiting_time_prediction",
+  "algorithm": "GradientBoosting",
+  "version": "v1786724696",
+  "trained_at": "2026-08-14T21:24:56.689601",
+  "metrics": {
+    "MAE": 1.28,
+    "RMSE": 1.58,
+    "MAPE": 7.71,
+    "R2": 0.878
+  },
+  "all_candidates": {
+    "GradientBoosting": {
+      "MAE": 1.28,
+      "RMSE": 1.58,
+      "MAPE": 7.71,
+      "R2": 0.878
+    },
+    "RandomForest": {
+      "MAE": 1.28,
+      "RMSE": 1.6,
+      "MAPE": 7.75,
+      "R2": 0.874
+    },
+    "XGBoost": {
+      "MAE": 1.28,
+      "RMSE": 1.58,
+      "MAPE": 7.72,
+      "R2": 0.877
+    }
+  },
+  "feature_list": [
+    "day_of_week",
+    "month",
+    "expected_patients",
+    "capacity",
+    "occupancy_ratio",
+    "doctors_available",
+    "had_event_flag",
+    "dept_Cardiology",
+    "dept_Emergency",
+    "dept_OPD - General Medicine",
+    "dept_Orthopedics",
+    "dept_Pediatrics",
+    "dept_Radiology"
+  ],
+  "dataset_version": "synthetic_v1"
+}

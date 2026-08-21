@@ -1,0 +1,49 @@
+{
+  "model_name": "no_show_prediction",
+  "algorithm": "RandomForest",
+  "version": "v1786724745",
+  "trained_at": "2026-08-14T21:25:45.846142",
+  "metrics": {
+    "accuracy": 0.839,
+    "f1": 0.0,
+    "roc_auc": 0.646
+  },
+  "all_candidates": {
+    "LogisticRegression": {
+      "accuracy": 0.839,
+      "f1": 0.0,
+      "roc_auc": 0.637
+    },
+    "RandomForest": {
+      "accuracy": 0.839,
+      "f1": 0.0,
+      "roc_auc": 0.646
+    },
+    "XGBoost": {
+      "accuracy": 0.839,
+      "f1": 0.0,
+      "roc_auc": 0.644
+    }
+  },
+  "feature_list": [
+    "lead_time_days",
+    "day_of_week",
+    "previous_cancellations",
+    "dept_Cardiology",
+    "dept_Emergency",
+    "dept_OPD - General Medicine",
+    "dept_Orthopedics",
+    "dept_Pediatrics",
+    "dept_Radiology",
+    "type_Appointment",
+    "type_Follow-up",
+    "type_OPD",
+    "age_0-12",
+    "age_13-18",
+    "age_19-35",
+    "age_36-55",
+    "age_56-70",
+    "age_70+"
+  ],
+  "dataset_version": "synthetic_v1"
+}

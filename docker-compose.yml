@@ -1,0 +1,58 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: hop_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: hop_user
+      POSTGRES_PASSWORD: hop_password
+      POSTGRES_DB: hospital_ops
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hop_user -d hospital_ops"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: hop_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+
+  backend:
+    build: ./backend
+    container_name: hop_backend
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://hop_user:hop_password@postgres:5432/hospital_ops
+      SECRET_KEY: ${SECRET_KEY:-change-me-in-production}
+      JWT_SECRET: ${JWT_SECRET:-change-me-in-production}
+      REDIS_URL: redis://redis:6379/0
+      MODEL_PATH: /app/ml/models/artifacts
+      CORS_ORIGINS: '["http://localhost:3000","http://localhost:8080"]'
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend/ml/models/artifacts:/app/ml/models/artifacts
+
+  frontend:
+    build: ./frontend
+    container_name: hop_frontend
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:

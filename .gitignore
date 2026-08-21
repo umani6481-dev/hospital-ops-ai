@@ -1,0 +1,14 @@
+﻿.venv/
+.venv-new/
+venv/
+backend/venv/
+__pycache__/
+*.pyc
+.env
+backend/.env
+backend/hospital_ops.db
+node_modules/
+dist/
+build/
+*.log
+.DS_Store

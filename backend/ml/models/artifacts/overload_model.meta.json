@@ -1,0 +1,47 @@
+{
+  "model_name": "overload_prediction",
+  "algorithm": "LogisticRegression",
+  "version": "v1786724672",
+  "trained_at": "2026-08-14T21:24:32.159705",
+  "metrics": {
+    "accuracy": 1.0,
+    "f1_macro": 1.0
+  },
+  "all_candidates": {
+    "LogisticRegression": {
+      "accuracy": 1.0,
+      "f1_macro": 1.0
+    },
+    "RandomForest": {
+      "accuracy": 0.983,
+      "f1_macro": 0.869
+    },
+    "XGBoost": {
+      "accuracy": 1.0,
+      "f1_macro": 1.0
+    }
+  },
+  "feature_list": [
+    "day_of_week",
+    "month",
+    "is_monday",
+    "is_weekend",
+    "expected_patients",
+    "capacity",
+    "doctors_available",
+    "had_event_flag",
+    "dept_Cardiology",
+    "dept_Emergency",
+    "dept_OPD - General Medicine",
+    "dept_Orthopedics",
+    "dept_Pediatrics",
+    "dept_Radiology"
+  ],
+  "labels": [
+    "normal",
+    "moderate",
+    "high",
+    "critical"
+  ],
+  "dataset_version": "synthetic_v1"
+}

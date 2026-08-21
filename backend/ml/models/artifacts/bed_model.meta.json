@@ -1,0 +1,45 @@
+{
+  "model_name": "bed_availability",
+  "algorithm": "RandomForest",
+  "version": "v1786724722",
+  "trained_at": "2026-08-14T21:25:22.638875",
+  "metrics": {
+    "MAE": 0.06,
+    "RMSE": 0.08,
+    "MAPE": 6.0,
+    "R2": 0.634
+  },
+  "all_candidates": {
+    "RandomForest": {
+      "MAE": 0.06,
+      "RMSE": 0.08,
+      "MAPE": 6.0,
+      "R2": 0.634
+    },
+    "XGBoost": {
+      "MAE": 0.06,
+      "RMSE": 0.07,
+      "MAPE": 5.55,
+      "R2": 0.668
+    }
+  },
+  "feature_list": [
+    "day_of_week",
+    "month",
+    "is_monday",
+    "is_weekend",
+    "prev_day_demand",
+    "prev_week_demand",
+    "ma_7",
+    "ma_14",
+    "capacity",
+    "had_event_flag",
+    "dept_Cardiology",
+    "dept_Emergency",
+    "dept_OPD - General Medicine",
+    "dept_Orthopedics",
+    "dept_Pediatrics",
+    "dept_Radiology"
+  ],
+  "dataset_version": "synthetic_v1"
+}
