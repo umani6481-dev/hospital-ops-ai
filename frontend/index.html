@@ -41,6 +41,9 @@
 <body class="min-h-screen">
 
 <div id="app"></div>
+<script>
+  window.HOSPITAL_API_BASE = "https://hospital-ops-ai.onrender.com";
+</script>
 
 <script src="assets/api.js"></script>
 <script src="assets/app.js"></script>
@@ -99,7 +102,7 @@
 
 <script>
 (function () {
-  const API_BASE = "http://127.0.0.1:8000/api/chatbot/ask";
+  const API_BASE = "https://hospital-ops-ai.onrender.com/api/chatbot/ask";
   const toggle = document.getElementById("hoa-chatbot-toggle");
   const panel = document.getElementById("hoa-chatbot-panel");
   const closeBtn = document.getElementById("hoa-chatbot-close");
